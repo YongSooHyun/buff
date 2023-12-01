@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/typeorm/seeds"],
+  "compilerOptions": {
+    "outDir": "./dist/typeorm"
+  }
+}

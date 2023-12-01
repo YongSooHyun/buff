@@ -1,0 +1,11 @@
+{
+  "type": "mariadb",
+  "host": "localhost",
+  "port": 3310,
+  "username": "root",
+  "password": "a1234567",
+  "database": "test",
+  "entities": ["dist/typeorm/*.js"],
+  "seeds": ["dist/typeorm/seeds/*.js"],
+  "synchronize": true
+}

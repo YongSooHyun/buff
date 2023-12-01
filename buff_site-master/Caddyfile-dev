@@ -1,0 +1,19 @@
+api.localhost {
+  reverse_proxy * backend:3001 {
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+  }
+}
+
+localhost {
+  route /socket.io/* {
+    uri strip_prefix /api
+    reverse_proxy * backend:3001
+  }
+  route {
+    file_server /uploads/* {
+      root /
+    }
+    reverse_proxy * frontend:3000
+  }
+}

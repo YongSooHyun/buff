@@ -1,0 +1,9 @@
+{
+  "eslint.validate": ["javascript", "vue", "typescript"],
+  "editor.autoIndent": "full",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+  }
+}

@@ -1,0 +1,4 @@
+ormconfig.json
+dist
+node_modules
+uploads

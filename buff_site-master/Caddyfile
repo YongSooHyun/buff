@@ -1,0 +1,24 @@
+api.buf40.com {
+  reverse_proxy * backend:3001 {
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+  }
+}
+
+buf40.com {
+  route /socket.io/* {
+    uri strip_prefix /api
+    reverse_proxy * backend:3001
+  }
+  route {
+    header /uploads/* Cache-Control max-age=31536000
+    file_server /uploads/* {
+      root /
+    }
+    reverse_proxy * frontend:3000
+  }
+}
+
+www.buf40.com {
+  redir https://buf40.com{uri}
+}

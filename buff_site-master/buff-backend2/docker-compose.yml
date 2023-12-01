@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  db:
+    image: mariadb:10.1.46
+    command: 
+      - --character-set-server=utf8mb4 
+      - --collation-server=utf8mb4_unicode_ci
+    restart: always
+    ports:
+      - 3310:3306
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: a1234567
+      TZ: "Asia/Seoul"
+

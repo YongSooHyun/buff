@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  webserver:
+    image: caddy:2.4.5-alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      TZ: 'Asia/Seoul'
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+      # - /uploads:/svr/uploads
+      - $PWD/uploads:/uploads
+
+  db:
+    image: mariadb:10.6.4
+    command: 
+      - --character-set-server=utf8mb4 
+      - --collation-server=utf8mb4_unicode_ci
+    restart: always
+    ports:
+      - 3310:3306
+    environment:
+      MYSQL_DATABASE: buf
+      MYSQL_ROOT_PASSWORD: a1234567
+      TZ: 'Asia/Seoul'
+    volumes:
+      # - /database:/var/lib/mysql
+      - $PWD/database:/var/lib/mysql
+
+  backend:
+    # image: aws/123
+    build:
+      context: ./buff-backend2
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: buf
+      DB_USER: root
+      DB_PASSWORD: a1234567
+      TZ: 'Asia/Seoul'
+    volumes:
+      # - /uploads:/uploads
+      - $PWD/uploads:/uploads
+
+  frontend:
+    # image: aws/234
+    build:
+      context: ./buff_frontend
+    restart: always
+    environment:
+      API_URL: http://backend:3001
+      API_URL_BROWSER: https://api.localhost/
+      WS_URL: api.localhost
+    volumes:
+      # - /uploads:/uploads
+      - $PWD/uploads:/uploads
+
+volumes:
+  caddy_data:
+    external: true
+    name: caddy_data
+  caddy_config:
